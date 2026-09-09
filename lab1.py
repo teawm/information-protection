@@ -2,11 +2,8 @@ import random
 import math
 
 
-# Быстрое возведение в степень по модулю: y = a^b % p
+# Быстрое возведение в степень по модулю: y = aᵇ % p (справа-налево)
 def fast_pow_mod(a, b, p):
-    """
-    Вычисляет aᵇ mod p методом быстрого возведения в степень
-    """
     result = 1
     a = a % p
     while b > 0:
@@ -18,17 +15,17 @@ def fast_pow_mod(a, b, p):
 
 
 # Тест Ферма
-def Ferma_test(n, k=10):
-    if n < 2:
+def Ferma_test(p, k=10):
+    if p < 2:
         return False
-    if n == 2 or n == 3:
+    if p == 2 or p == 3:
         return True
-    if n % 2 == 0:
+    if p % 2 == 0:
         return False
 
     for _ in range(k):
-        a = random.randint(2, n - 2)
-        if fast_pow_mod(a, n - 1, n) != 1:
+        a = random.randint(2, p - 2)
+        if fast_pow_mod(a, p - 1, p) != 1:
             return False
     return True
 
@@ -41,7 +38,7 @@ def GCD(a, b):
     """
     if a == 0:
         return b, 0, 1
-    gcdnum, x1, y1   = GCD(b % a, a)
+    gcdnum, x1, y1 = GCD(b % a, a)
     x = y1 - (b // a) * x1
     y = x1
     return gcdnum, x, y
@@ -105,36 +102,44 @@ def main_lab1():
     print(" Криптограф. библиотека")
     print("=" * (67 - 6 * 7)) #67676767
 
-    print("\n[1] Быстрое возведение в степень по модулю: y = aᵇ mod p")
-    print("\n[2] Тест простоты Ферма")
-    print("\n[3] Обобщённый алгоритм Евклида: a*x + b*y = НОД(a, b)")
-    choice = 0
-    while not (choice == "1" or choice == "2" or choice == "3"):
-        choice = input("\n[?] Ваш выбор: ")
-
-    if choice == "1":
+    while (True):
         print("\n[1] Быстрое возведение в степень по модулю: y = aᵇ mod p")
-        params = get_parameters("Быстрое возведение в степень", ["a", "b", "p"])
-        if params:
-            a, b, p = params
-            result = fast_pow_mod(a, b, p)
-            print(f"  Результат: {a}^{b} % {p} = {result}")
-
-    elif choice == "2":
         print("\n[2] Тест простоты Ферма")
-        n = int(input("  Введите число для проверки: "))
-        is_prime = Ferma_test(n)
-        print(f"  Число {n} {'является простым (с высокой вероятностью)' if is_prime else 'является составным'}")
-
-    elif choice == "3":
         print("\n[3] Обобщённый алгоритм Евклида: a*x + b*y = НОД(a, b)")
-        params = get_parameters("Алгоритм Евклида", ["a", "b"], need_prime=True)
-        if params:
-            a, b = params
-            GCD, x, y = GCD(a, b)
-            print(f"  НОД({a}, {b}) = {GCD}")
-            print(f"  x = {x}, y = {y}")
-            print(f"  Проверка: {a}*{x} + {b}*{y} = {a * x + b * y}")
+
+        choice = 0
+        while not (choice == "1" or choice == "2" or choice == "3"):
+            choice = input("\n[?] Ваш выбор: ")
+
+        if choice == "1":
+            print("\n[1] Быстрое возведение в степень по модулю: y = aᵇ mod p")
+            params = get_parameters("Быстрое возведение в степень", ["a", "b", "p"])
+            if params:
+                a, b, p = params
+                result = fast_pow_mod(a, b, p)
+                print(f"  Результат: {a}^{b} % {p} = {result}")
+
+        elif choice == "2":
+            print("\n[2] Тест простоты Ферма")
+            n = int(input("  Введите число для проверки: "))
+            k = input("  Введите число повторений (исходное: 10): ")
+            if not k.isnumeric():
+                k = 10
+            else: 
+                k = int(k)
+
+            is_prime = Ferma_test(n, k)
+            print(f"  Число {n} {'является простым (с высокой вероятностью)' if is_prime else 'является составным'}")
+
+        elif choice == "3":
+            print("\n[3] Обобщённый алгоритм Евклида: a*x + b*y = НОД(a, b)")
+            params = get_parameters("Алгоритм Евклида", ["a", "b"], need_prime=True)
+            if params:
+                a, b = params
+                GCD, x, y = GCD(a, b)
+                print(f"  НОД({a}, {b}) = {GCD}")
+                print(f"  x = {x}, y = {y}")
+                print(f"  Проверка: {a}*{x} + {b}*{y} = {a * x + b * y}")
 
 
 if __name__ == "__main__":
