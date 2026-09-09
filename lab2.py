@@ -2,13 +2,12 @@ import random
 import math
 from lab1 import fast_pow_mod, generate_prime, GCD
 
-# Алгоритм «Шаг младенца - шаг великана» (Baby-step Giant-step)
-# Находит x из уравнения: a^x = y (mod p)
-# Трудоемкость: O(√p * log(√p))
+# Алгоритм Шаг младенца - шаг великана
+# a^x = y mod p
 def baby_step_giant_step(a, y, p):
     m = math.isqrt(p)
     if m * m < p:
-        m += 1  # m = √p
+        m += 1 
     
     
     # --- Первый ряд: y*a^i mod p для i = 0, 1, ..., m-1 ---

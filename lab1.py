@@ -137,7 +137,7 @@ def main_lab1():
             if params:
                 a, b = params
                 gcdnum, x, y = GCD(a, b)
-                print(f"  НОД({a}, {b}) = {GCD}")
+                print(f"  НОД({a}, {b}) = {gcdnum}")
                 print(f"  x = {x}, y = {y}")
                 print(f"  Проверка: {a}*{x} + {b}*{y} = {a * x + b * y}")
 
