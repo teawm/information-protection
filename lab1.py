@@ -71,7 +71,7 @@ def get_parameters(mode_name, param_names, need_prime=False):
         print("3) Сгенерировать простые параметры (тест Ферма)")
 
     choice = input("Ваш выбор: ").strip()
-
+    print("\033[0;37m")
     if choice == "1":
         values = []
         for name in param_names:
@@ -103,15 +103,18 @@ def main_lab1():
     print("=" * (67 - 6 * 7)) #67676767
 
     while (True):
+        print("\033[0;32m")
         print("\n[1] Быстрое возведение в степень по модулю: y = aᵇ mod p")
         print("\n[2] Тест простоты Ферма")
         print("\n[3] Обобщённый алгоритм Евклида: a*x + b*y = НОД(a, b)")
 
         choice = 0
         while not (choice == "1" or choice == "2" or choice == "3"):
+            print("\033[0;34m")
             choice = input("\n[?] Ваш выбор: ")
 
         if choice == "1":
+            print("\033[0;37m")
             print("\n[1] Быстрое возведение в степень по модулю: y = aᵇ mod p")
             params = get_parameters("Быстрое возведение в степень", ["a", "b", "p"])
             if params:
@@ -120,6 +123,7 @@ def main_lab1():
                 print(f"  Результат: {a}^{b} % {p} = {result}")
 
         elif choice == "2":
+            print("\033[0;37m")
             print("\n[2] Тест простоты Ферма")
             n = int(input("  Введите число для проверки: "))
             k = input("  Введите число повторений (исходное: 10): ")
@@ -132,6 +136,7 @@ def main_lab1():
             print(f"  Число {n} {'является простым (с высокой вероятностью)' if is_prime else 'является составным'}")
 
         elif choice == "3":
+            print("\033[0;37m")
             print("\n[3] Обобщённый алгоритм Евклида: a*x + b*y = НОД(a, b)")
             params = get_parameters("Алгоритм Евклида", ["a", "b"], need_prime=True)
             if params:

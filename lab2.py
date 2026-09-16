@@ -106,7 +106,7 @@ def get_dlog_parameters():
 def main_lab2():
     print("=" * (69 - 6*7))
     print("   ЛАБОРАТОРНАЯ РАБОТА 2")
-    print(" Дискрет. логарифмирование")
+    print("   Шаг младенца/великана")
     print("=" * (69 - 6*7))
     print("\t[y = a^x mod p]")
     params = get_dlog_parameters()
@@ -114,7 +114,7 @@ def main_lab2():
         return
 
     a, y, p, x_true = params
-
+    
     print(f"\n  Решаем: {a}^x = {y} (mod {p})")
     print(f"  m = [√{p}] = {math.isqrt(p) if math.isqrt(p)**2 == p else math.isqrt(p) + 1}")
 
