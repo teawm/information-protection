@@ -1,2 +1,5 @@
 __pycache__/
 .vscode
+lab4/*.*.S_enc
+lab4/*.*.S_dec
+lab4/*.*.*.png

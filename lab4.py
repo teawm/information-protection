@@ -186,11 +186,11 @@ def shamir_encrypt_file(input_path, output_path, p, C_A, D_A, C_B, D_B):
                 print("    Ошибка: Исходный и конечный блоки не совпадают!")
 
     # Сохраняем результат
-    # Обычно "зашифрованный файл" в схеме Шамира — это состояние после Шага 3 
+    # "Зашифрованный файл" в схеме Шамира — это состояние после Шага 3 
     # (когда Алиса отправила Бобу, и только Боб может открыть).
     # Или состояние после Шага 2 (если Алиса хочет сохранить файл для Боба).
-    # Давайте сохраним состояние после Шага 3 как "encrypted", 
-    # а после Шага 4 как "decrypted".
+    # Состояние после Шага 3 - "encrypted", 
+    # Состояние после Шага 4 - "decrypted".
     
     # Функция для записи списка больших чисел в файл
     def write_numbers_to_file(nums, path, original_chunk_sizes):
@@ -209,33 +209,18 @@ def shamir_encrypt_file(input_path, output_path, p, C_A, D_A, C_B, D_B):
     original_sizes = [len(c) for c in chunks]
 
     # Сохраняем "Зашифрованный" (после шага 3 - готов к расшифровке Бобом)
-    enc_path = output_path + ".shamir_enc"
+    enc_path = output_path + ".S_enc"
     write_numbers_to_file(step3_chunks, enc_path, original_sizes)
     print(f"\n  [✓] Файл после шага 3 (передан Бобу) сохранен: {enc_path}")
     
     # Сохраняем "Расшифрованный" (после шага 4 - исходный файл)
-    dec_path = output_path + ".shamir_dec"
+    dec_path = output_path + ".S_dec"
     
     # Восстанавливаем байты из чисел step4
     restored_data = b''
     for i, num in enumerate(step4_chunks):
         # Преобразуем число в байты
         full_bytes = num.to_bytes(p_byte_len, byteorder='big')
-        # Берем только нужное количество байт (согласно original_sizes)
-        # Поскольку мы использовали big-endian, значащие байты могут быть в конце,
-        # НО int.from_bytes(chunk, 'big') для chunk=b'\x00\x01' даст 1.
-        # 1.to_bytes(2) даст b'\x00\x01'. Все верно.
-        # Проблема возникает, если original chunk был b'\x00', int=0, to_bytes(1)=b'\x00'.
-        # Нужно аккуратно обрезать до original size.
-        
-        # Так как мы писали фиксированную длину p_byte_len, а исходный chunk мог быть меньше,
-        # нам нужно взять последние original_size байт? 
-        # Нет, int.from_bytes(b'\x00\x05', 'big') = 5. 
-        # 5.to_bytes(2, 'big') = b'\x00\x05'.
-        # Значит, нам нужны ПОСЛЕДНИЕ original_size байт из полного представления?
-        # Да, потому что старшие нули отбрасываются при превращении в int, 
-        # но при записи в фиксированный размер p_byte_len они дополняются слева.
-        # Оригинальный размер <= p_byte_len.
         
         orig_len = original_sizes[i]
         # Берем хвост
@@ -291,10 +276,10 @@ def main_lab4():
         # Создадим тестовый файл, если его нет
         if not os.path.exists(input_file):
             with open(input_file, "w", encoding="utf-8") as f:
-                f.write("Hello, Shamir! Это тестовое сообщение для Лабораторной работы №4.")
+                f.write("Hello, World!")
             print(f"  (Создан тестовый файл {input_file})")
 
-    output_prefix = input_file + "_out"
+    output_prefix = input_file + ""
     
     # 3. Запуск шифрования
     shamir_encrypt_file(input_file, output_prefix, p, C_A, D_A, C_B, D_B)
