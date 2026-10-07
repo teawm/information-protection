@@ -38,7 +38,7 @@ def rsa_generate_keys(p, q, d=None):
     gcd_val, x, _ = GCD(d, phi)
     if gcd_val != 1:
         return None
-    c = x % phi  # c = d^{-1} mod phi (обобщ. алгоритм Евклида)
+    c = x % phi
     return n, phi, d, c
 
 
@@ -131,7 +131,6 @@ def check_rsa_parameters(p, q, n, phi, d, c):
 # ===================================================================
 
 def rsa_encrypt_file(input_path, output_path, n, d, c):
-    # Шифрует любой файл схемой RSA.
     # Файл разбивается на блоки по (байтовая длина N) - 1, чтобы m < N.
     # Каждый блок: e = m^D_B mod N.
     if not os.path.exists(input_path):
@@ -153,7 +152,7 @@ def rsa_encrypt_file(input_path, output_path, n, d, c):
     ciphers = []
     for idx, chunk in enumerate(chunks):
         m = int.from_bytes(chunk, 'big')
-        e = rsa_encrypt(m, d, n)               # Шаг 1
+        e = rsa_encrypt(m, d, n)
         # Самопроверка по Шагу 2 (закрытый ключ здесь известен)
         if rsa_decrypt(e, c, n) != m:
             print(f"{RED}<✗>{WHITE} Самопроверка не пройдена на блоке {idx}!")
@@ -210,7 +209,6 @@ def rsa_decrypt_file(input_path, output_path, c=None):
 
     if c is None:
         c = int(input("  Введите C_B (закрытый ключ Б): "))
-
 
     # Проверка закрытого ключа повторным шифрованием (phi неизвестно)
     if ciphers:
